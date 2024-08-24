@@ -50,7 +50,7 @@ public class TaskController {
 
 
     // get all tasks/derived queries
-
+    @GetMapping()
     public ResponseEntity<List<Task>> getAllTask(@RequestParam(required = false, name = "user_id") Long userId,
                                                  @RequestParam(required = false, name = "complete") Boolean complete){
         // gets complete/incomplete task for specific user
@@ -59,10 +59,12 @@ public class TaskController {
             // gets tasks for specific user
         } else if (userId != null){
             return new ResponseEntity<>(taskService.getAllTaskByUserId(userId), HttpStatus.OK);
+        }  else {
+            List<Task> allTasks = taskService.getAllTasks();
+            return new ResponseEntity<>(allTasks, HttpStatus.OK);
         }
-        // get all tasks -- default request
-        List<Task> allTasks = taskService.getAllTasks();
-        return new ResponseEntity<>(allTasks, HttpStatus.OK);
+
+
     }
 
 
